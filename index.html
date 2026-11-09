@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meetup Club - Event Platform</title>
+    <meta name="description" content="The premier event platform for curated galas and private gatherings featuring real-time ticketing, manual UPI verification, and gate access." />
+    <meta property="og:title" content="Meetup Club - Event Platform" />
+    <meta property="og:description" content="The premier event platform for curated galas and private gatherings featuring real-time ticketing, manual UPI verification, and gate access." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // AI Studio Cloud Run proxy does not support or proxy Vite HMR websockets.
+      // Intercept WebSocket creation for Vite HMR to prevent unhandled rejections and red error overlays.
+      (function () {
+        var OrigWebSocket = window.WebSocket;
+        if (OrigWebSocket) {
+          function MockWebSocket(url, protocols) {
+            this.binaryType = 'blob';
+            this.bufferedAmount = 0;
+            this.extensions = '';
+            this.protocol = 'vite-hmr';
+            this.readyState = 1; // WebSocket.OPEN
+            this.url = String(url || '');
+            this._listeners = {};
+            this.onopen = null;
+            this.onclose = null;
+            this.onerror = null;
+            this.onmessage = null;
+
+            var self = this;
+            setTimeout(function () {
+              var openEvt = { type: 'open', target: self, currentTarget: self };
+              if (typeof self.onopen === 'function') {
+                try { self.onopen(openEvt); } catch (e) {}
+              }
+              var openListeners = (self._listeners['open'] || []).slice();
+              for (var i = 0; i < openListeners.length; i++) {
+                try { openListeners[i](openEvt); } catch (e) {}
+              }
+            }, 0);
+          }
+
+          MockWebSocket.prototype.send = function () {};
+          MockWebSocket.prototype.close = function () {};
+          MockWebSocket.prototype.addEventListener = function (type, listener) {
+            if (!this._listeners[type]) this._listeners[type] = [];
+            this._listeners[type].push(listener);
+            if (type === 'open' && this.readyState === 1) {
+              var self = this;
+              setTimeout(function () {
+                try { listener({ type: 'open', target: self, currentTarget: self }); } catch (e) {}
+              }, 0);
+            }
+          };
+          MockWebSocket.prototype.removeEventListener = function (type, listener) {
+            if (!this._listeners[type]) return;
+            this._listeners[type] = this._listeners[type].filter(function (l) { return l !== listener; });
+          };
+          MockWebSocket.prototype.dispatchEvent = function () { return true; };
+          MockWebSocket.CONNECTING = 0;
+          MockWebSocket.OPEN = 1;
+          MockWebSocket.CLOSING = 2;
+          MockWebSocket.CLOSED = 3;
+
+          window.WebSocket = function (url, protocols) {
+            var urlStr = String(url || '');
+            var protoStr = String(protocols || '');
+            if (
+              urlStr.includes('vite-hmr') ||
+              protoStr.includes('vite-hmr') ||
+              urlStr.includes('@vite') ||
+              urlStr.includes('run.app')
+            ) {
+              return new MockWebSocket(url, protocols);
+            }
+            return new OrigWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OrigWebSocket.prototype;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+
+        window.addEventListener('unhandledrejection', function (event) {
+          var reason = event && event.reason;
+          var msg = reason ? (reason.message || String(reason)) : '';
+          if (
+            msg.includes('WebSocket') ||
+            msg.includes('websocket') ||
+            msg.includes('closed without opened') ||
+            msg.includes('Camera') ||
+            msg.includes('userMedia') ||
+            msg.includes('NotAllowedError') ||
+            msg.includes('Permission denied')
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+
+        window.addEventListener('error', function (event) {
+          var msg = event ? (event.message || String(event)) : '';
+          if (
+            msg.includes('WebSocket') ||
+            msg.includes('websocket') ||
+            msg.includes('closed without opened')
+          ) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+
+        var _origConsoleError = console.error;
+        console.error = function () {
+          var args = Array.prototype.slice.call(arguments);
+          var allText = args.map(function(a) { return String(a || ''); }).join(' ');
+          if (
+            allText.includes('[vite] failed to connect to websocket') ||
+            allText.includes('WebSocket closed without opened')
+          ) {
+            return;
+          }
+          _origConsoleError.apply(console, args);
+        };
+
+        var _origConsoleWarn = console.warn;
+        console.warn = function () {
+          var args = Array.prototype.slice.call(arguments);
+          var allText = args.map(function(a) { return String(a || ''); }).join(' ');
+          if (
+            allText.includes('Camera failed') ||
+            allText.includes('Error getting userMedia') ||
+            allText.includes('NotAllowedError') ||
+            allText.includes('Permission denied') ||
+            allText.includes('html5-qrcode')
+          ) {
+            return;
+          }
+          _origConsoleWarn.apply(console, args);
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

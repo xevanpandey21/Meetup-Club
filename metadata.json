@@ -1,0 +1,10 @@
+{
+  "name": "Remix Meetup Club ",
+  "description": "Exclusive black and gold luxury event management platform featuring multi-role authentication, dynamic CMS, manual UPI payment verification, and real-time gate scanner.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "entities": {
+    "Event": {
+      "title": "Event",
+      "description": "Luxury club event hosted by Meetup Club",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "date": { "type": "string", "maxLength": 64 },
+        "time": { "type": "string", "maxLength": 64 },
+        "venue": { "type": "string", "maxLength": 256 },
+        "ticketPrice": { "type": "number" },
+        "capacity": { "type": "number" },
+        "registeredCount": { "type": "number" },
+        "coverImageUrl": { "type": "string", "maxLength": 2048 },
+        "category": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "title", "date", "venue", "ticketPrice"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Attendee event ticket application and QR pass",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "eventId": { "type": "string", "maxLength": 128 },
+        "eventTitle": { "type": "string", "maxLength": 200 },
+        "attendeeId": { "type": "string", "maxLength": 128 },
+        "attendeeName": { "type": "string", "maxLength": 128 },
+        "attendeeEmail": { "type": "string", "maxLength": 128 },
+        "attendeePhone": { "type": "string", "maxLength": 32 },
+        "attendeeDob": { "type": "string", "maxLength": 32 },
+        "attendeeAge": { "type": "number" },
+        "attendeeOrg": { "type": "string", "maxLength": 128 },
+        "attendeeAddress": { "type": "string", "maxLength": 512 },
+        "utrNumber": { "type": "string", "maxLength": 64 },
+        "receiptUrl": { "type": "string", "maxLength": 500000 },
+        "receiptFileName": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["Pending", "Verified", "Rejected"], "maxLength": 32 },
+        "qrCodeData": { "type": "string", "maxLength": 256 },
+        "isCheckedIn": { "type": "boolean" },
+        "checkedInAt": { "type": "string", "maxLength": 64 },
+        "checkedInBy": { "type": "string", "maxLength": 128 },
+        "adminNotes": { "type": "string", "maxLength": 512 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "verifiedAt": { "type": "string", "maxLength": 64 },
+        "amountPaid": { "type": "number" }
+      },
+      "required": ["id", "eventId", "attendeeName", "attendeeEmail", "utrNumber", "status"]
+    },
+    "CMSContent": {
+      "title": "CMSContent",
+      "description": "Dynamic CMS content for public pages and platform configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "pageKey": { "type": "string", "maxLength": 64 },
+        "bannerTitle": { "type": "string", "maxLength": 256 },
+        "bannerSubtitle": { "type": "string", "maxLength": 512 },
+        "bannerImageUrl": { "type": "string", "maxLength": 2048 },
+        "bodyText": { "type": "string", "maxLength": 5000 },
+        "adminUpiId": { "type": "string", "maxLength": 128 },
+        "adminUpiQrUrl": { "type": "string", "maxLength": 2048 },
+        "adminPhone": { "type": "string", "maxLength": 32 },
+        "supportEmail": { "type": "string", "maxLength": 128 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "pageKey"]
+    },
+    "GalleryItem": {
+      "title": "GalleryItem",
+      "description": "Luxury event gallery photos and media",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 512 },
+        "imageUrl": { "type": "string", "maxLength": 2048 },
+        "category": { "type": "string", "maxLength": 64 },
+        "eventDate": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "title", "imageUrl"]
+    },
+    "PortfolioItem": {
+      "title": "PortfolioItem",
+      "description": "Showcase of past prestigious events and club achievements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "clientOrEvent": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "coverImageUrl": { "type": "string", "maxLength": 2048 },
+        "metrics": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "title", "coverImageUrl"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Public inquiries submitted via the Contact form",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "subject": { "type": "string", "maxLength": 256 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["unread", "read", "replied"], "maxLength": 32 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "name", "email", "message", "status"]
+    },
+    "Attendee": {
+      "title": "Attendee",
+      "description": "Registered attendee patron profile with manual credentials",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "passwordHash": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["attendee"], "maxLength": 32 },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "authProvider": { "type": "string", "enum": ["password", "email", "manual"], "maxLength": 32 },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "lastLoginAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "GateStaff": {
+      "title": "GateStaff",
+      "description": "Authorized gate officers with access to mobile turnstile QR scanning",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "password": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["active", "deactivated"], "maxLength": 32 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "name", "email", "status"]
+    }
+  },
+  "firestore": {
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Published luxury events available for public booking"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Tickets booked by attendees with UPI verification status and gate check-in state"
+    },
+    "/cms_content/{contentId}": {
+      "schema": "CMSContent",
+      "description": "Dynamic CMS settings, banners, and payment credentials"
+    },
+    "/gallery_items/{galleryId}": {
+      "schema": "GalleryItem",
+      "description": "Club event photography and moments"
+    },
+    "/portfolio_items/{portfolioId}": {
+      "schema": "PortfolioItem",
+      "description": "Portfolio achievements and flagship experiences"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Contact form submissions managed by administrators"
+    },
+    "/attendees/{attendeeId}": {
+      "schema": "Attendee",
+      "description": "Registered attendee user accounts in Members Directory"
+    },
+    "/gate_staff/{staffId}": {
+      "schema": "GateStaff",
+      "description": "Field gate staff accounts for turnstile scanning"
+    }
+  }
+}
