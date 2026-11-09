@@ -47,6 +47,7 @@ import {
   getCMSContent,
   DEFAULT_CMS_SETTINGS,
   submitInquiry,
+  ensureDefaultGateStaff,
 } from './services/dbService';
 import { testConnection } from './firebase';
 
@@ -107,6 +108,7 @@ export default function App() {
   // Test connection and subscribe to database on boot
   useEffect(() => {
     testConnection();
+    ensureDefaultGateStaff().catch(() => {});
 
     // Fetch dynamic CMS content
     getCMSContent('settings').then((data) => {
